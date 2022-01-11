@@ -1,0 +1,19 @@
+.box {
+  border: 1px solid black;
+  text-align: center;
+}
+
+.flexy {
+  display: flex;
+  flex-direction: row;
+}
+
+.center {
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+
+.padding {
+  padding: 30px 100px 50px;
+}
