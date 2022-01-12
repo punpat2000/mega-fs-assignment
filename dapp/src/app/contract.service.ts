@@ -9,11 +9,11 @@ import { ABI } from './abi';
 })
 export class ContractService {
 	private cETH = '0xd6801a1DfFCd0a410336Ef88DeF4320D6DF1883e';
-	private cETHMainnet = '0x4ddc2d193948926d02f9b1fe9e1daa0718270ed5';
+	// private cETHMainnet = '0x4ddc2d193948926d02f9b1fe9e1daa0718270ed5';
 	web3: Web3;
-	web3Mainnet: Web3;
+	// web3Mainnet: Web3;
 	CEther: Contract;
-	CEtherMainnet: Contract;
+	// CEtherMainnet: Contract;
 	connected = false;
 
 	constructor() {
@@ -22,11 +22,11 @@ export class ContractService {
 				'wss://rinkeby.infura.io/ws/v3/09c39bf828a9431b84a89602ba6e3630'
 			)
 		);
-		this.web3Mainnet = new Web3(
-			new Web3.providers.WebsocketProvider(
-				'wss://mainnet.infura.io/ws/v3/09c39bf828a9431b84a89602ba6e3630'
-			)
-		);
+		// this.web3Mainnet = new Web3(
+		// 	new Web3.providers.WebsocketProvider(
+		// 		'wss://mainnet.infura.io/ws/v3/09c39bf828a9431b84a89602ba6e3630'
+		// 	)
+		// );
 
 		if (typeof (window as any).ethereum !== 'undefined') {
 			console.log('MetaMask is installed!');
@@ -36,13 +36,13 @@ export class ContractService {
 			ABI as unknown as AbiItem[],
 			this.cETH
 		);
-		this.CEtherMainnet = new this.web3Mainnet.eth.Contract(
-			ABI as unknown as AbiItem[],
-			this.cETHMainnet
-		);
+		// this.CEtherMainnet = new this.web3Mainnet.eth.Contract(
+		// 	ABI as unknown as AbiItem[],
+		// 	this.cETHMainnet
+		// );
 		this.getExchangeRate();
-		this.totalSupplyInETHMainnet();
-		this.getExchangeRateMainnet();
+		this.totalSupply();
+		// this.getExchangeRateMainnet();
 	}
 
 	async getSupplyApy(): Promise<number> {
@@ -56,16 +56,16 @@ export class ContractService {
 		return supplyApy;
 	}
 
-	async getSupplyApyMainnet(): Promise<number> {
-		const rate = await this.supplyRatePerBlockMainnet();
-		const ethMantissa = 1e18;
-		const blocksPerDay = 6570;
-		const daysPerYear = 365;
-		console.log(rate);
-		const supplyApy =
-			Math.pow((+rate / ethMantissa) * blocksPerDay + 1, daysPerYear - 1) - 1;
-		return supplyApy;
-	}
+	// async getSupplyApyMainnet(): Promise<number> {
+	// 	const rate = await this.supplyRatePerBlockMainnet();
+	// 	const ethMantissa = 1e18;
+	// 	const blocksPerDay = 6570;
+	// 	const daysPerYear = 365;
+	// 	console.log(rate);
+	// 	const supplyApy =
+	// 		Math.pow((+rate / ethMantissa) * blocksPerDay + 1, daysPerYear - 1) - 1;
+	// 	return supplyApy;
+	// }
 
 	async getHashrate(): Promise<number> {
 		return await this.web3.eth.getHashrate();
@@ -75,19 +75,19 @@ export class ContractService {
 		return (await this.CEther.methods.totalSupply().call()) as string;
 	}
 
-	async totalSupplyMainnet(): Promise<string> {
-		return (await this.CEtherMainnet.methods.totalSupply().call()) as string;
-	}
+	// async totalSupplyMainnet(): Promise<string> {
+	// 	return (await this.CEtherMainnet.methods.totalSupply().call()) as string;
+	// }
 
 	async supplyRatePerBlock(): Promise<string> {
 		return (await this.CEther.methods.supplyRatePerBlock().call()) as string;
 	}
 
-	async supplyRatePerBlockMainnet(): Promise<string> {
-		return (await this.CEtherMainnet.methods
-			.supplyRatePerBlock()
-			.call()) as string;
-	}
+	// async supplyRatePerBlockMainnet(): Promise<string> {
+	// 	return (await this.CEtherMainnet.methods
+	// 		.supplyRatePerBlock()
+	// 		.call()) as string;
+	// }
 
 	/**
 	 * return exchange rate for 1 ETH according to Rnkeby network
@@ -105,31 +105,31 @@ export class ContractService {
 		return ETHIncETH;
 	}
 
-	/**
-	 * return exchange rate for 1 ETH according to Rnkeby network
-	 */
-	async getExchangeRateMainnet(): Promise<number> {
-		const cETHDecimals = 8;
-		const underlyingETHDecimals = 18;
-		const exchangeRateCurrent = await this.CEtherMainnet.methods
-			.exchangeRateCurrent()
-			.call();
-		const mantissa = 18 + underlyingETHDecimals - cETHDecimals;
-		const oneCTokenInUnderlying = exchangeRateCurrent / Math.pow(10, mantissa);
-		const ETHIncETH = 1 / oneCTokenInUnderlying;
-		console.log('1 ETH can be redeemed for', ETHIncETH, 'cETH');
-		return ETHIncETH;
-	}
+	// /**
+	//  * return exchange rate for 1 ETH according to Rnkeby network
+	//  */
+	// async getExchangeRateMainnet(): Promise<number> {
+	// 	const cETHDecimals = 8;
+	// 	const underlyingETHDecimals = 18;
+	// 	const exchangeRateCurrent = await this.CEtherMainnet.methods
+	// 		.exchangeRateCurrent()
+	// 		.call();
+	// 	const mantissa = 18 + underlyingETHDecimals - cETHDecimals;
+	// 	const oneCTokenInUnderlying = exchangeRateCurrent / Math.pow(10, mantissa);
+	// 	const ETHIncETH = 1 / oneCTokenInUnderlying;
+	// 	console.log('1 ETH can be redeemed for', ETHIncETH, 'cETH');
+	// 	return ETHIncETH;
+	// }
 
-	async totalSupplyInETHMainnet(): Promise<number> {
-		const [exchangeRate, totalSupply] = await Promise.all([
-			this.getExchangeRateMainnet(),
-			this.totalSupplyMainnet(),
-		]);
-		const totalAmount = +totalSupply / 10e7 / exchangeRate;
-		console.log(totalAmount);
-		return totalAmount;
-	}
+	// async totalSupplyInETHMainnet(): Promise<number> {
+	// 	const [exchangeRate, totalSupply] = await Promise.all([
+	// 		this.getExchangeRateMainnet(),
+	// 		this.totalSupplyMainnet(),
+	// 	]);
+	// 	const totalAmount = +totalSupply / 10e7 / exchangeRate;
+	// 	console.log(totalAmount);
+	// 	return totalAmount;
+	// }
 
 	async totalSupplyInETH(): Promise<number> {
 		const [exchangeRate, totalSupply] = await Promise.all([
