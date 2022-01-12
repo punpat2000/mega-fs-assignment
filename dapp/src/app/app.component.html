@@ -1,38 +1,38 @@
 <div class="padding">
-  <span>
-    <h2>{{ title }}</h2>
-    <button>
-      {{ walletConnected ? walletAddress : "Connect to Metamask" }}
-    </button>
-  </span>
-  <div>
-    <button (click)="onClickSupply()">Supply</button>
-    <button (click)="onClickWithdraw()">Withdraw</button>
-  </div>
-  <div *ngIf="supplyMode" class="flexy center">
-    <div class="box">
-      <h2>Your Supplied</h2>
-      <h2>{{ yourSupplied }} ETH</h2>
-    </div>
-    <div class="box">
-      <h2>Total Supplied</h2>
-      <h2>{{ totalSupplied }} ETH</h2>
-    </div>
-    <div class="box">
-      <h2>APY</h2>
-      <h2>{{ APY | percent: "3.2-3" }}</h2>
-    </div>
-  </div>
-  <div class="flexy center">
-    <div class="center box" style="width: fit-content">
-      <h1>{{ modeString() }}</h1>
-      <span>Balance {{ balance }} ETH</span>
-      <div class="flexy">
-        <input type="text" placeholder="ETH" disabled />
-        <input type="number" placeholder="MAX 0 ETH" />
-      </div>
-      <div>Receiving {{ receivingCompound }} cETH</div>
-      <button>{{ modeString() }}</button>
-    </div>
-  </div>
+	<div>
+		<h2>{{ title }}</h2>
+		<button>
+			{{ walletConnected ? walletAddress : 'Connect to Metamask' }}
+		</button>
+	</div>
+	<div>
+		<button (click)="onClickSupply()">Supply</button>
+		<button (click)="onClickWithdraw()">Withdraw</button>
+	</div>
+	<div *ngIf="supplyMode" class="flexy center">
+		<div class="box">
+			<h2>Your Supplied</h2>
+			<h2>{{ yourSupplied }} ETH</h2>
+		</div>
+		<div class="box">
+			<h2>Total Supplied</h2>
+			<h2>{{ totalSupplied | async | number: '1.0-0' }} ETH</h2>
+		</div>
+		<div class="box">
+			<h2>APY</h2>
+			<h2>{{ supplyApy | async | percent: '1.2-2' }}</h2>
+		</div>
+	</div>
+	<div class="flexy center">
+		<div class="center box" style="width: fit-content">
+			<h1>{{ modeString() }}</h1>
+			<span>Balance {{ balance }} ETH</span>
+			<div class="flexy">
+				<input type="text" placeholder="ETH" disabled />
+				<input type="number" placeholder="MAX 0 ETH" />
+			</div>
+			<div>Receiving {{ receivingCompound }} cETH</div>
+			<button>{{ modeString() }}</button>
+		</div>
+	</div>
 </div>
