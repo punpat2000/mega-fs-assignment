@@ -2,7 +2,7 @@
 	<div>
 		<h2>{{ title }}</h2>
 		<div *ngIf="walletAddress; else connect">
-			{{ walletAddress | async }}
+			{{ walletAddress }}
 		</div>
 		<ng-template #connect>
 			<button (click)="onClickConnect()">Connect to Metamask</button>
@@ -29,10 +29,18 @@
 	<div class="flexy center">
 		<div class="center box" style="width: fit-content">
 			<h1>{{ modeString() }}</h1>
-			<span>Balance {{ balance }} ETH</span>
+			<span>Balance {{ walletBalance }} ETH</span>
 			<div class="flexy">
 				<input type="text" placeholder="ETH" disabled />
-				<input type="number" placeholder="MAX 0 ETH" />
+				<input
+					[(ngModel)]="inputAmount"
+					type="number"
+					placeholder="0 ETH"
+					min="0"
+					value="0"
+					step="any"
+				/>
+				<button (click)="max()">MAX</button>
 			</div>
 			<div>Receiving {{ receivingCompound }} cETH</div>
 			<button>{{ modeString() }}</button>
