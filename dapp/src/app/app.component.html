@@ -1,9 +1,12 @@
 <div class="padding">
 	<div>
 		<h2>{{ title }}</h2>
-		<button>
-			{{ walletConnected ? walletAddress : 'Connect to Metamask' }}
-		</button>
+		<div *ngIf="walletAddress; else connect">
+			{{ walletAddress | async }}
+		</div>
+		<ng-template #connect>
+			<button (click)="onClickConnect()">Connect to Metamask</button>
+		</ng-template>
 	</div>
 	<div>
 		<button (click)="onClickSupply()">Supply</button>

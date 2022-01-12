@@ -11,17 +11,17 @@ export class AppComponent {
 	yourSupplied = 0;
 	balance = 1.02;
 	receivingCompound = 0;
-	walletConnected = false;
-	walletAddress = '0x70670002029dD650EA58c2aC6c58B9DbB85cBd89';
 	supplyMode = true;
 	modeString = () => (this.supplyMode ? 'Supply' : 'Withdraw');
 	supplyApy: Promise<number>;
 	totalSupplied: Promise<number>;
+  walletAddress: Promise<string | false>;
 
 	// constructor() {}
 	constructor(public cs: ContractService) {
 		this.supplyApy = this.cs.getSupplyApy();
 		this.totalSupplied = this.cs.totalSupplyInETH();
+    this.walletAddress = this.cs.ethEnabled();
 	}
 
 	onClickSupply() {
@@ -32,11 +32,8 @@ export class AppComponent {
 		this.supplyMode = false;
 	}
 
-	onClickConnect() {
-		if (typeof (window as any).ethereum === 'undefined') {
-			console.log('MetaMask has not been installed!');
-			return;
-		}
+	async onClickConnect() {
+		return this.cs.ethEnabled();
 	}
 
 	onSubmit() {
