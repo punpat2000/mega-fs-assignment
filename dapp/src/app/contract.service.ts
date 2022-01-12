@@ -10,9 +10,9 @@ import { ABI } from './abi';
 export class ContractService {
 	private cETH = '0xd6801a1DfFCd0a410336Ef88DeF4320D6DF1883e';
 	// private cETHMainnet = '0x4ddc2d193948926d02f9b1fe9e1daa0718270ed5';
-	web3: Web3;
+	private web3: Web3;
 	// web3Mainnet: Web3;
-	CEther: Contract;
+	private CEther: Contract;
 	// CEtherMainnet: Contract;
 	connected = false;
 
