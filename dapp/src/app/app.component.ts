@@ -20,7 +20,7 @@ export class AppComponent {
 
 	// constructor() {}
 	constructor(public cs: ContractService) {
-		this.supplyApy = this.cs.getSupplyApyMainnet();
+		this.supplyApy = this.cs.getSupplyApy();
 		this.totalSupplied = this.cs.totalSupplyInETH();
 	}
 
@@ -35,6 +35,13 @@ export class AppComponent {
 	onClickConnect() {
 		if (typeof (window as any).ethereum === 'undefined') {
 			console.log('MetaMask has not been installed!');
+			return;
+		}
+	}
+
+	onSubmit() {
+		if (!this.cs.connected) {
+			console.error('wallet not connected!');
 			return;
 		}
 	}

@@ -14,6 +14,7 @@ export class ContractService {
 	web3Mainnet: Web3;
 	CEther: Contract;
 	CEtherMainnet: Contract;
+	connected = false;
 
 	constructor() {
 		this.web3 = new Web3(
@@ -40,6 +41,7 @@ export class ContractService {
 			this.cETHMainnet
 		);
 		this.getExchangeRate();
+		this.totalSupplyInETHMainnet();
 		this.getExchangeRateMainnet();
 	}
 
@@ -135,7 +137,7 @@ export class ContractService {
 			this.totalSupply(),
 		]);
 		const totalAmount = +totalSupply / 10e7 / exchangeRate;
-		console.log(totalAmount);
+		console.log(+totalSupply / 10e7);
 		return totalAmount;
 	}
 }
