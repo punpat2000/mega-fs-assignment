@@ -12,7 +12,7 @@ export class AppComponent {
   walletBalance = 0;
   receivingCompound = 0;
   supplyMode = true;
-  modeString = () => (this.supplyMode ? 'Supply' : 'Withdraw');
+  modeString: 'Supply' | 'Withdraw' = 'Supply';
   supplyApy: Promise<number>;
   totalSupplied: Promise<number>;
   walletAddress: false | string = false;
@@ -35,10 +35,12 @@ export class AppComponent {
 
   onClickSupply() {
     this.supplyMode = true;
+    this.modeString = 'Supply';
   }
 
   onClickWithdraw() {
     this.supplyMode = false;
+    this.modeString = 'Withdraw';
   }
 
   async onClickConnect() {

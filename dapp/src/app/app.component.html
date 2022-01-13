@@ -28,7 +28,7 @@
   </div>
   <div class="flexy center">
     <div class="center box" style="width: fit-content">
-      <h1>{{ modeString() }}</h1>
+      <h1>{{ modeString }}</h1>
       <span>Balance {{ walletBalance | number: '1.0-4' }} ETH</span>
       <div class="flexy">
         <input type="text" placeholder="ETH" disabled />
@@ -43,7 +43,7 @@
         <button (click)="max()">MAX</button>
       </div>
       <div>Receiving {{ receivingCompound }} cETH</div>
-      <button (click)="onSubmit()">{{ modeString() }}</button>
+      <button (click)="onSubmit()">{{ modeString }}</button>
     </div>
   </div>
 </div>
