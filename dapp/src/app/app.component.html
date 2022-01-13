@@ -1,49 +1,49 @@
 <div class="padding">
-	<div>
-		<h2>{{ title }}</h2>
-		<div *ngIf="walletAddress; else connect">
-			{{ walletAddress }}
-		</div>
-		<ng-template #connect>
-			<button (click)="onClickConnect()">Connect to Metamask</button>
-		</ng-template>
-	</div>
-	<div>
-		<button (click)="onClickSupply()">Supply</button>
-		<button (click)="onClickWithdraw()">Withdraw</button>
-	</div>
-	<div *ngIf="supplyMode" class="flexy center">
-		<div class="box">
-			<h2>Your Supplied</h2>
-			<h2>{{ yourSupplied }} ETH</h2>
-		</div>
-		<div class="box">
-			<h2>Total Supplied</h2>
-			<h2>{{ totalSupplied | async | number: '1.0-0' }} ETH</h2>
-		</div>
-		<div class="box">
-			<h2>APY</h2>
-			<h2>{{ supplyApy | async | percent: '1.2-2' }}</h2>
-		</div>
-	</div>
-	<div class="flexy center">
-		<div class="center box" style="width: fit-content">
-			<h1>{{ modeString() }}</h1>
-			<span>Balance {{ walletBalance }} ETH</span>
-			<div class="flexy">
-				<input type="text" placeholder="ETH" disabled />
-				<input
-					[(ngModel)]="inputAmount"
-					type="number"
-					placeholder="0 ETH"
-					min="0"
-					value="0"
-					step="any"
-				/>
-				<button (click)="max()">MAX</button>
-			</div>
-			<div>Receiving {{ receivingCompound }} cETH</div>
-			<button>{{ modeString() }}</button>
-		</div>
-	</div>
+  <div>
+    <h2>{{ title }}</h2>
+    <div *ngIf="walletAddress; else connect">
+      {{ walletAddress }}
+    </div>
+    <ng-template #connect>
+      <button (click)="onClickConnect()">Connect to Metamask</button>
+    </ng-template>
+  </div>
+  <div>
+    <button (click)="onClickSupply()">Supply</button>
+    <button (click)="onClickWithdraw()">Withdraw</button>
+  </div>
+  <div *ngIf="supplyMode" class="flexy center">
+    <div class="box">
+      <h2>Your Supplied</h2>
+      <h2>{{ yourSupplied | number: '1.0-4' }} ETH</h2>
+    </div>
+    <div class="box">
+      <h2>Total Supplied</h2>
+      <h2>{{ totalSupplied | async | number: '1.0-4' }} ETH</h2>
+    </div>
+    <div class="box">
+      <h2>APY</h2>
+      <h2>{{ supplyApy | async | percent: '1.2-2' }}</h2>
+    </div>
+  </div>
+  <div class="flexy center">
+    <div class="center box" style="width: fit-content">
+      <h1>{{ modeString() }}</h1>
+      <span>Balance {{ walletBalance | number: '1.0-4' }} ETH</span>
+      <div class="flexy">
+        <input type="text" placeholder="ETH" disabled />
+        <input
+          [(ngModel)]="inputAmount"
+          type="number"
+          placeholder="0 ETH"
+          min="0"
+          value="0"
+          step="any"
+        />
+        <button (click)="max()">MAX</button>
+      </div>
+      <div>Receiving {{ receivingCompound }} cETH</div>
+      <button (click)="onSubmit()">{{ modeString() }}</button>
+    </div>
+  </div>
 </div>
