@@ -1,6 +1,6 @@
 # Instruction:
-1. Install dependencies by using [yarn install] command.
-2. Serve the application by using [yarn start] command.
+1. Install dependencies by using `yarn install` command.
+2. Serve the application by using `yarn start` command.
 3. Go to http://localhost:4200/ on your browser with Metamask installed.
 
 # Dapp
