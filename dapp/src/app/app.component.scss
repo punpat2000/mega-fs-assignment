@@ -15,5 +15,407 @@
 }
 
 .padding {
+  color: var(--coconut);
+  font-family: var(--font-family-raleway);
   padding: 30px 100px 50px;
+}
+
+.supply {
+  align-items: flex-start;
+  background-color: #ffffff;
+  display: flex;
+  width: 1248px;
+}
+
+.supply .group-1 {
+  align-items: flex-start;
+  display: flex;
+  height: 702px;
+  left: 0;
+  min-width: 1248px;
+  position: fixed;
+  top: 0;
+  z-index: 1;
+}
+
+.supply .supply-page {
+  align-items: center;
+  background-color: #2f4058;
+  display: flex;
+  flex-direction: column;
+  min-height: 702px;
+  padding: 68.2px 0;
+  width: 1248px;
+}
+
+.supply .overlap-group-1 {
+  height: 106px;
+  margin-left: 0;
+  position: relative;
+  width: 451px;
+}
+
+.supply .connect-to-meta-mask {
+  color: var(--coconut);
+  font-family: var(--font-family-raleway);
+  font-size: var(--font-size-m);
+  font-weight: 500;
+  height: 57px;
+  left: 120px;
+  letter-spacing: 0;
+  position: absolute;
+  text-align: center;
+  text-decoration: underline;
+  text-shadow: 0px 2.6px 2.6px #00000052;
+  top: 49px;
+  width: 212px;
+}
+
+.supply .wallet-address {
+  color: var(--coconut);
+  font-family: var(--font-family-raleway);
+  font-size: var(--font-size-s);
+  font-weight: 500;
+  height: 57px;
+  letter-spacing: 0;
+  position: absolute;
+  text-align: center;
+  text-shadow: 0px 2.6px 2.6px #00000052;
+  top: 49px;
+  width: 212px;
+}
+
+.supply .withdraw {
+  background-color: var(--coconut);
+  box-shadow: 3.9px 3.9px 2.6px #0000003d;
+  height: 36px;
+  left: 226px;
+  position: absolute;
+  top: 10px;
+  width: 226px;
+}
+
+.supply .withdraw-selected {
+  background-color: var(--burnt-sienna);
+  box-shadow: 3.9px 3.9px 2.6px #0000003d;
+  height: 36px;
+  left: 226px;
+  position: absolute;
+  top: 10px;
+  width: 226px;
+}
+
+.supply .withdraw-1 {
+  font-family: var(--font-family-raleway);
+  font-size: var(--font-size-xl);
+  font-weight: 500;
+  height: 57px;
+  left: 241px;
+  letter-spacing: 0;
+  position: absolute;
+  text-align: center;
+  top: 0;
+  width: 195px;
+}
+
+.supply .supply-1 {
+  background-color: var(--burnt-sienna);
+  box-shadow: 0px 3.9px 2.6px #00000033;
+  height: 36px;
+  left: 0;
+  position: absolute;
+  top: 10px;
+  width: 226px;
+}
+
+.supply .supply-1-selected {
+  background-color: var(--coconut);
+  box-shadow: 0px 3.9px 2.6px #00000033;
+  height: 36px;
+  left: 0;
+  position: absolute;
+  top: 10px;
+  width: 226px;
+}
+
+.supply .place {
+  height: 57px;
+  left: 15px;
+  letter-spacing: 0;
+  position: absolute;
+  text-align: center;
+  top: 0;
+  width: 195px;
+}
+
+.supply .body {
+  align-items: flex-start;
+  display: flex;
+  height: 422px;
+  margin-top: 14px;
+  min-width: 806px;
+}
+
+.supply .overlap-group-container {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  min-height: 422px;
+  width: 320px;
+}
+
+.supply .overlap-group2 {
+  background-color: var(--coconut);
+  border-radius: 37.05px;
+  box-shadow: 2.6px 2.6px 2.6px transparent;
+  height: 126px;
+  position: relative;
+  width: 320px;
+}
+
+.supply .address {
+  height: 57px;
+  left: 62px;
+  letter-spacing: 0;
+  position: absolute;
+  text-align: center;
+  top: 51px;
+  width: 197px;
+}
+
+.supply .your-supplied {
+  height: 57px;
+  left: 62px;
+  letter-spacing: 0;
+  position: absolute;
+  text-align: center;
+  top: 8px;
+  width: 197px;
+}
+
+.supply .overlap-group {
+  background-color: var(--coconut);
+  border-radius: 37.05px;
+  box-shadow: 2.6px 2.6px 2.6px transparent;
+  height: 126px;
+  margin-top: 22px;
+  position: relative;
+  width: 320px;
+}
+
+.supply .address-1 {
+  height: 57px;
+  left: 62px;
+  letter-spacing: 0;
+  position: absolute;
+  text-align: center;
+  top: 57px;
+  width: 197px;
+}
+
+.supply .total-supplied {
+  height: 57px;
+  left: 62px;
+  letter-spacing: 0;
+  position: absolute;
+  text-align: center;
+  top: 12px;
+  width: 197px;
+}
+
+.supply .percent {
+  height: 57px;
+  left: 62px;
+  letter-spacing: 0;
+  position: absolute;
+  text-align: center;
+  top: 57px;
+  width: 197px;
+}
+
+.supply .apy {
+  height: 57px;
+  left: 62px;
+  letter-spacing: 0;
+  position: absolute;
+  text-align: center;
+  top: 14px;
+  width: 197px;
+}
+
+.supply .overlap-group3 {
+  align-self: center;
+  height: 353px;
+  margin-left: 39px;
+  margin-top: 0.65px;
+  position: relative;
+  width: 447px;
+}
+
+.supply .supply-window {
+  background-color: var(--coconut);
+  border-radius: 48.1px;
+  box-shadow: 2.6px 2.6px 2.6px transparent;
+  height: 353px;
+  left: 20px;
+  position: absolute;
+  top: 0;
+  width: 427px;
+}
+
+.supply .fill-box {
+  background-color: var(--coconut);
+  border: 0.7px solid var(--abbey);
+  height: 53px;
+  left: 136px;
+  position: absolute;
+  top: 122px;
+  width: 255px;
+}
+
+.supply .supply-2 {
+  height: 44px;
+  left: 118px;
+  position: absolute;
+  top: 261px;
+  width: 232px;
+}
+
+.clickable {
+  cursor: pointer;
+  z-index: 1;
+}
+
+.supply .place-1 {
+  background-color: var(--burnt-sienna);
+  box-shadow: 0px 3.9px 2.6px #00000033;
+  height: 57px;
+  left: 137px;
+  letter-spacing: 0;
+  position: absolute;
+  text-align: center;
+  top: 252px;
+  width: 195px;
+}
+
+.supply .place-2 {
+  color: var(--burnt-sienna);
+  font-family: var(--font-family-raleway);
+  font-size: var(--font-size-xxl);
+  font-weight: 600;
+  height: 57px;
+  left: 136px;
+  letter-spacing: 0;
+  position: absolute;
+  text-align: center;
+  top: 36px;
+  width: 197px;
+}
+
+.supply .address-2 {
+  height: 52px;
+  left: 317px;
+  letter-spacing: 0;
+  position: absolute;
+  text-align: center;
+  top: 164px;
+  width: 99px;
+}
+
+.supply .receiving {
+  height: 52px;
+  left: 113px;
+  letter-spacing: 0;
+  position: absolute;
+  text-align: center;
+  top: 164px;
+  width: 99px;
+}
+
+.supply .address-3 {
+  color: var(--jumbo);
+  font-family: var(--font-family-raleway);
+  font-size: var(--font-size-s);
+  font-weight: 500;
+  height: 53px;
+  left: 250px;
+  letter-spacing: 0;
+  position: absolute;
+  text-align: center;
+  top: 122px;
+  width: 150px;
+}
+
+.supply .name {
+  color: var(--burnt-sienna);
+  font-family: var(--font-family-raleway);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  height: 57px;
+  left: 130px;
+  letter-spacing: 0;
+  position: absolute;
+  text-align: center;
+  top: 120px;
+  width: 66px;
+}
+
+.supply .place-3 {
+  color: var(--abbey);
+  font-family: var(--font-family-raleway);
+  font-size: var(--font-size-xl);
+  font-weight: 500;
+  height: 57px;
+  left: 0;
+  letter-spacing: 0;
+  position: absolute;
+  text-align: center;
+  top: 119px;
+  width: 197px;
+}
+
+.supply .x102-eth {
+  height: 52px;
+  left: 317px;
+  letter-spacing: 0;
+  position: absolute;
+  text-align: center;
+  top: 83px;
+  width: 99px;
+}
+
+.supply .balance {
+  height: 52px;
+  left: 265px;
+  letter-spacing: 0;
+  position: absolute;
+  text-align: center;
+  top: 83px;
+  width: 99px;
+}
+
+@import url("https://fonts.googleapis.com/css?family=Raleway:500,600");
+
+.screen a {
+  display: contents;
+  text-decoration: none;
+}
+
+.container-center-horizontal {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  pointer-events: none;
+  width: 100%;
+}
+
+.container-center-horizontal > * {
+  flex-shrink: 0;
+  pointer-events: auto;
+}
+
+.valign-text-middle {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }

@@ -1,1 +1,97 @@
 /* You can add global styles to this file, and also import other style files */
+@import url("https://fonts.googleapis.com/css?family=Raleway:500,600");
+
+:root {
+  --black: rgba(0, 0, 0, 1);
+  --abbey: rgba(75, 78, 83, 1);
+  --jumbo: rgba(121, 125, 130, 1);
+  --burnt-sienna: rgba(226, 130, 78, 1);
+  --coconut: rgba(253, 254, 255, 1);
+
+  --font-size-xxs: 11.7px;
+  --font-size-xs: 15.6px;
+  --font-size-s: 18.2px;
+  --font-size-m: 19.5px;
+  --font-size-l: 20.8px;
+  --font-size-xl: 23.4px;
+  --font-size-xxl: 31.2px;
+
+  --font-family-raleway: "Raleway";
+}
+.raleway-medium-abbey-30px {
+  color: var(--abbey);
+  font-family: var(--font-family-raleway);
+  font-size: var(--font-size-m);
+  font-weight: 500;
+  font-style: normal;
+}
+.raleway-medium-abbey-19-5px {
+  color: var(--abbey);
+  font-family: var(--font-family-raleway);
+  font-size: var(--font-size-m);
+  font-weight: 500;
+  font-style: normal;
+}
+.raleway-medium-jumbo-18px {
+  color: var(--jumbo);
+  font-family: var(--font-family-raleway);
+  font-size: var(--font-size-xxs);
+  font-weight: 500;
+  font-style: normal;
+}
+.raleway-medium-jumbo-11-7px {
+  color: var(--jumbo);
+  font-family: var(--font-family-raleway);
+  font-size: var(--font-size-xxs);
+  font-weight: 500;
+  font-style: normal;
+}
+.raleway-semi-bold-burnt-sienna-32px {
+  color: var(--burnt-sienna);
+  font-family: var(--font-family-raleway);
+  font-size: var(--font-size-l);
+  font-weight: 600;
+  font-style: normal;
+}
+.raleway-semi-bold-burnt-sienna-20-8px {
+  color: var(--burnt-sienna);
+  font-family: var(--font-family-raleway);
+  font-size: var(--font-size-l);
+  font-weight: 600;
+  font-style: normal;
+}
+.raleway-medium-coconut-36px {
+  color: var(--coconut);
+  font-family: var(--font-family-raleway);
+  font-size: var(--font-size-xl);
+  font-weight: 500;
+  font-style: normal;
+}
+.raleway-medium-coconut-23-4px {
+  color: var(--coconut);
+  font-family: var(--font-family-raleway);
+  font-size: var(--font-size-xl);
+  font-weight: 500;
+  font-style: normal;
+}
+.raleway-medium-burnt-sienna-23-4px {
+  color: var(--burnt-sienna);
+  font-family: var(--font-family-raleway);
+  font-size: var(--font-size-xl);
+  font-weight: 500;
+  font-style: normal;
+}
+html {
+  background-color: #2f4058;
+}
+
+// body {
+//   margin: 0;
+//   max-width: 100%;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+// }
+
+/* Importing Bootstrap SCSS file. */
+@import "~bootstrap/scss/bootstrap";

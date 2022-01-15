@@ -6,6 +6,8 @@ import { ABI } from './constants/abi.const';
 import { cETH } from './constants/cETH.const';
 import detectEthereumProvider from '@metamask/detect-provider';
 import { BehaviorSubject } from 'rxjs';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ErrorModal } from './modal/error.component';
 
 @Injectable({
   providedIn: 'root',
@@ -15,13 +17,18 @@ export class ContractService {
   private userWeb3!: Web3;
   private CEther: Contract;
   connected = false;
-  walletAddress: BehaviorSubject<false | string> = new BehaviorSubject<
-    false | string
-  >(false);
+  walletAddress = new BehaviorSubject<false | string>(false);
   underlyingBalance = new BehaviorSubject(0);
   walletBalance = new BehaviorSubject(0);
+  $exchangeRate = new BehaviorSubject(0);
 
-  constructor() {
+  constructor(private modalService: NgbModal) {
+    if (!(window as any).ethereum) {
+      const modalRef = this.modalService.open(ErrorModal);
+      modalRef.componentInstance.message =
+        'Metamask wallet is not detected. Please install Metamask wallet or reload this page!';
+    }
+
     this.web3 = new Web3((window as any).ethereum);
     console.log(this.web3);
 
@@ -33,7 +40,7 @@ export class ContractService {
   }
 
   async getSupplyApy(): Promise<number> {
-    const rate = await this.supplyRatePerBlock();
+    const rate = await this.getSupplyRatePerBlock();
     const ethMantissa = 1e18;
     const blocksPerDay = 6570; // 13.15 seconds per block
     const daysPerYear = 365;
@@ -44,24 +51,37 @@ export class ContractService {
   }
 
   async connectWallet() {
-    const provider = await detectEthereumProvider({ mustBeMetaMask: true });
-    (provider as any).on('accountsChanged', (accounts: string[]) => {
-      if (accounts.length > 0) {
-        this.walletAddress.next(accounts[0]);
-        this.getUnderlyingBalance();
-        this.getWalletBalance();
-      } else {
-        this.walletAddress.next(false);
-      }
-    });
+    try {
+      const provider = await detectEthereumProvider({ mustBeMetaMask: true });
+      (provider as any).on('accountsChanged', (accounts: string[]) => {
+        console.log('on account changed called');
+        if (accounts.length > 0) {
+          this.walletAddress.next(accounts[0]);
+          this.getUnderlyingBalance();
+          this.getWalletBalance();
+        } else {
+          this.walletAddress.next(false);
+        }
+        location.reload();
+      });
 
-    if (provider) {
-      await (provider as any).request({ method: 'eth_requestAccounts' });
-      this.userWeb3 = new Web3(provider as any);
-      this.updateWalletAddress();
-      return true;
-    } else {
-      console.log('Please install MetaMask!');
+      (provider as any).on('chainChanged', () => {
+        location.reload();
+      });
+
+      if (provider) {
+        await (provider as any).request({ method: 'eth_requestAccounts' });
+        this.userWeb3 = new Web3(provider as any);
+        this.updateWalletAddress();
+        return true;
+      } else {
+        console.log('Please install MetaMask!');
+        return false;
+      }
+    } catch (err) {
+      const modalRef = this.modalService.open(ErrorModal);
+      modalRef.componentInstance.message =
+        'There is a problem connecting to the wallet. Please try again.';
       return false;
     }
   }
@@ -84,18 +104,18 @@ export class ContractService {
     return await this.web3.eth.getHashrate();
   }
 
-  async totalSupply(): Promise<string> {
+  async getTotalSupply(): Promise<string> {
     return (await this.CEther.methods.totalSupply().call()) as string;
   }
 
-  async supplyRatePerBlock(): Promise<string> {
+  async getSupplyRatePerBlock(): Promise<string> {
     return (await this.CEther.methods.supplyRatePerBlock().call()) as string;
   }
 
-  async totalSupplyInETH(): Promise<number> {
+  async getTotalSupplyInETH(): Promise<number> {
     const [exchangeRate, totalSupply] = await Promise.all([
       this.getExchangeRate(),
-      this.totalSupply(),
+      this.getTotalSupply(),
     ]);
     const totalAmount = +totalSupply / 10e7 / exchangeRate;
     console.log(+totalSupply / 10e7);
@@ -115,6 +135,7 @@ export class ContractService {
     const oneCTokenInUnderlying = exchangeRateCurrent / Math.pow(10, mantissa);
     const ETHIncETH = 1 / oneCTokenInUnderlying;
     console.log('1 ETH can be redeemed for', ETHIncETH, 'cETH');
+    this.$exchangeRate.next(ETHIncETH);
     return ETHIncETH;
   }
 
@@ -129,6 +150,7 @@ export class ContractService {
       this.underlyingBalance.next(amount);
       return amount;
     }
+
     console.log('0 underlying tokens');
     this.underlyingBalance.next(0);
     return 0;
@@ -136,20 +158,28 @@ export class ContractService {
 
   async getWalletBalance(): Promise<number> {
     const account = this.walletAddress.getValue();
-    console.log('here', account);
-    if (typeof account === 'string') {
+    if (account) {
       this.web3.eth.getBalance(account, (err, balance) => {
+        console.log(err, balance);
         const amount = +this.web3.utils.fromWei(balance, 'ether');
+        console.log('wallet balance: ', balance, account);
         this.walletBalance.next(amount);
+        return amount;
       });
     }
     this.walletBalance.next(0);
     return 0;
   }
 
-  async mint() {
+  async mint(amount: number) {
+    if (amount < 0) {
+      throw new Error('negative input amount not allowed');
+    }
+
     const account = this.walletAddress.getValue() as string;
-    const value = this.web3.utils.toHex(this.web3.utils.toWei('0.2', 'ether'));
+    const value = this.web3.utils.toHex(
+      this.web3.utils.toWei(amount.toString(), 'ether')
+    );
     const res = await this.CEther.methods.mint().send({
       from: account,
       value: value,
@@ -158,50 +188,17 @@ export class ContractService {
     return res;
   }
 
-  // async totalSupplyMainnet(): Promise<string> {
-  // 	return (await this.CEtherMainnet.methods.totalSupply().call()) as string;
+  async redeem(amount: number) {
+    if (amount < 0) {
+      throw new Error('negative input amount not allowed');
+    }
 
-  // }
-  // /**
-  //  * return exchange rate for 1 ETH according to Rnkeby network
-  //  */
-  // async getExchangeRateMainnet(): Promise<number> {
-  // 	const cETHDecimals = 8;
-  // 	const underlyingETHDecimals = 18;
-  // 	const exchangeRateCurrent = await this.CEtherMainnet.methods
-  // 		.exchangeRateCurrent()
-  // 		.call();
-  // 	const mantissa = 18 + underlyingETHDecimals - cETHDecimals;
-  // 	const oneCTokenInUnderlying = exchangeRateCurrent / Math.pow(10, mantissa);
-  // 	const ETHIncETH = 1 / oneCTokenInUnderlying;
-  // 	console.log('1 ETH can be redeemed for', ETHIncETH, 'cETH');
-  // 	return ETHIncETH;
-  // }
+    const account = this.walletAddress.getValue() as string;
+    const value = parseFloat(amount.toFixed(7)) * 10e7;
+    const res = await this.CEther.methods.redeem(value.toString()).send({
+      from: account,
+    });
 
-  // async totalSupplyInETHMainnet(): Promise<number> {
-  // 	const [exchangeRate, totalSupply] = await Promise.all([
-  // 		this.getExchangeRateMainnet(),
-  // 		this.totalSupplyMainnet(),
-  // 	]);
-  // 	const totalAmount = +totalSupply / 10e7 / exchangeRate;
-  // 	console.log(totalAmount);
-  // 	return totalAmount;
-  // }
-
-  // async supplyRatePerBlockMainnet(): Promise<string> {
-  // 	return (await this.CEtherMainnet.methods
-  // 		.supplyRatePerBlock()
-  // 		.call()) as string;
-  // }
-
-  // async getSupplyApyMainnet(): Promise<number> {
-  // 	const rate = await this.supplyRatePerBlockMainnet();
-  // 	const ethMantissa = 1e18;
-  // 	const blocksPerDay = 6570;
-  // 	const daysPerYear = 365;
-  // 	console.log(rate);
-  // 	const supplyApy =
-  // 		Math.pow((+rate / ethMantissa) * blocksPerDay + 1, daysPerYear - 1) - 1;
-  // 	return supplyApy;
-  // }
+    return res;
+  }
 }

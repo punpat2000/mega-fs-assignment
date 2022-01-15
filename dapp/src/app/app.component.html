@@ -1,8 +1,149 @@
-<div class="padding">
+<div class="container-center-horizontal">
+  <div class="supply screen">
+    <div class="group-1">
+      <div class="supply-page">
+        <div class="overlap-group-1">
+          <div
+            *ngIf="walletAddress | async; else connect"
+            class="wallet-address valign-text-middle"
+          >
+            {{ walletAddress | async }}
+          </div>
+          <ng-template #connect>
+            <div
+              class="connect-to-meta-mask valign-text-middle clickable"
+              (click)="onClickConnect()"
+            >
+              Connect to MetaMask
+            </div>
+          </ng-template>
+          <div class="clickable">
+            <div (click)="onClickWithdraw()">
+              <div
+                [ngClass]="supplyMode ? 'withdraw' : 'withdraw-selected'"
+              ></div>
+              <div
+                class="withdraw-1 valign-text-middle"
+                [ngClass]="
+                  supplyMode
+                    ? 'raleway-medium-burnt-sienna-23-4px'
+                    : 'raleway-medium-coconut-23-4px'
+                "
+              >
+                Withdraw
+              </div>
+            </div>
+            <div (click)="onClickSupply()">
+              <div
+                [ngClass]="supplyMode ? 'supply-1' : 'supply-1-selected'"
+              ></div>
+              <div
+                class="place valign-text-middle"
+                [ngClass]="
+                  supplyMode
+                    ? 'raleway-medium-coconut-23-4px'
+                    : 'raleway-medium-burnt-sienna-23-4px'
+                "
+              >
+                Supply
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="body">
+          <div class="overlap-group-container">
+            <div class="overlap-group2">
+              <div
+                class="address valign-text-middle raleway-medium-abbey-19-5px"
+              >
+                {{ yourSupplied | async | number: '1.0-4' }} ETH
+              </div>
+              <div
+                class="your-supplied valign-text-middle raleway-semi-bold-burnt-sienna-20-8px"
+              >
+                Your Supplied
+              </div>
+            </div>
+            <div class="overlap-group">
+              <div
+                class="address-1 valign-text-middle raleway-medium-abbey-19-5px"
+              >
+                {{ totalSupplied | async | number: '1.0-4' }} ETH
+              </div>
+              <div
+                class="total-supplied valign-text-middle raleway-semi-bold-burnt-sienna-20-8px"
+              >
+                Total Supplied
+              </div>
+            </div>
+            <div class="overlap-group">
+              <div
+                class="percent valign-text-middle raleway-medium-abbey-19-5px"
+              >
+                {{ supplyApy | async | percent: '1.2-2' }}
+              </div>
+              <div
+                class="apy valign-text-middle raleway-semi-bold-burnt-sienna-20-8px"
+              >
+                APY
+              </div>
+            </div>
+          </div>
+          <div class="overlap-group3">
+            <div class="supply-window"></div>
+            <div class="fill-box"></div>
+            <div
+              class="place-1 valign-text-middle raleway-medium-coconut-23-4px clickable"
+              (click)="beginTransaction()"
+            >
+              {{ modeString }}
+            </div>
+            <h1 class="place-2 valign-text-middle">{{ modeString }}</h1>
+            <div
+              class="address-2 valign-text-middle raleway-medium-jumbo-11-7px"
+            >
+              {{ receiving | async | number: '1.0-4' }}
+              {{ supplyMode ? 'cETH' : 'ETH' }}
+            </div>
+            <div
+              class="receiving valign-text-middle raleway-medium-jumbo-11-7px"
+            >
+              Receiving
+            </div>
+            <input
+              class="address-3 valign-text-middle"
+              type="number"
+              [placeholder]="supplyMode ? 'amount ETH' : 'amount cETH'"
+              [(ngModel)]="inputAmount"
+              (ngModelChange)="triggerInputChange()"
+              step="any"
+            />
+            <div class="name valign-text-middle clickable" (click)="max()">
+              MAX
+            </div>
+            <div class="place-3 valign-text-middle">
+              {{ supplyMode ? 'ETH' : 'cETH' }}
+            </div>
+            <div
+              class="x102-eth valign-text-middle raleway-medium-jumbo-11-7px"
+            >
+              Balance
+              {{
+                (supplyMode ? walletBalance : (compoundBalance | async))
+                  | number: '1.0-4'
+              }}
+              {{ supplyMode ? 'ETH' : 'cETH' }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- <div class="padding">
   <div>
-    <h2>{{ title }}</h2>
-    <div *ngIf="walletAddress; else connect">
-      {{ walletAddress }}
+    <div *ngIf="walletAddress | async; else connect">
+      {{ walletAddress | async }}
     </div>
     <ng-template #connect>
       <button (click)="onClickConnect()">Connect to Metamask</button>
@@ -12,10 +153,10 @@
     <button (click)="onClickSupply()">Supply</button>
     <button (click)="onClickWithdraw()">Withdraw</button>
   </div>
-  <div *ngIf="supplyMode" class="flexy center">
+  <div class="flexy center">
     <div class="box">
       <h2>Your Supplied</h2>
-      <h2>{{ yourSupplied | number: '1.0-4' }} ETH</h2>
+      <h2>{{ yourSupplied | async | number: '1.0-4' }} ETH</h2>
     </div>
     <div class="box">
       <h2>Total Supplied</h2>
@@ -31,19 +172,28 @@
       <h1>{{ modeString }}</h1>
       <span>Balance {{ walletBalance | number: '1.0-4' }} ETH</span>
       <div class="flexy">
-        <input type="text" placeholder="ETH" disabled />
+        <input
+          type="text"
+          [placeholder]="supplyMode ? 'ETH' : 'cETH'"
+          disabled
+        />
         <input
           [(ngModel)]="inputAmount"
-          type="number"
-          placeholder="0 ETH"
+          (ngModelChange)="triggerInputChange()"
           min="0"
           value="0"
           step="any"
+          type="number"
+          placeholder="amount"
         />
         <button (click)="max()">MAX</button>
       </div>
-      <div>Receiving {{ receivingCompound }} cETH</div>
+      <div>
+        Receiving {{ receiving | async | number: '1.0-4' }}
+        {{ supplyMode ? 'cETH' : 'ETH' }}
+      </div>
       <button (click)="onSubmit()">{{ modeString }}</button>
     </div>
   </div>
+</div> -->
 </div>
